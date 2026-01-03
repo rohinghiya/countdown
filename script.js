@@ -2,7 +2,7 @@ const countdownEl = document.getElementById("countdown");
 const viewsEl = document.getElementById("views");
 const target = new Date("August 2, 2026 07:52:00").getTime();
 
-/* Countdown */
+/* Countdown function */
 function tick() {
   const now = Date.now();
   const diff = target - now;
@@ -23,10 +23,10 @@ function tick() {
     `${s.toString().padStart(2, "0")}s`;
 }
 
-/* Global view counter */
+/* Global view counter from Cloudflare Worker */
 async function updateViews() {
   try {
-    const res = await fetch("https://viewcounter.rohinghiya-uk.workers.dev");
+    const res = await fetch("https://viewcounter.rohinghiya-uk.workers.dev/");
     const data = await res.json();
     viewsEl.textContent = `view count: ${data.views}`;
   } catch {
@@ -34,7 +34,9 @@ async function updateViews() {
   }
 }
 
-/* Initialize */
+/* Initialize countdown and views */
 tick();
 updateViews();
+
+/* Update countdown every second */
 setInterval(tick, 1000);
