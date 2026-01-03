@@ -26,7 +26,7 @@ function tick() {
 /* Global view counter */
 async function updateViews() {
   try {
-    const res = await fetch("https://viewcounter.rohinghiya-uk.workers.dev);
+    const res = await fetch("https://viewcounter.rohinghiya-uk.workers.dev");
     const data = await res.json();
     viewsEl.textContent = `view count: ${data.views}`;
   } catch {
