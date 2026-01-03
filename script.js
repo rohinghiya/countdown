@@ -1,12 +1,14 @@
+const countdownEl = document.getElementById("countdown");
+const viewsEl = document.getElementById("views");
 const target = new Date("August 2, 2026 07:52:00").getTime();
-const el = document.getElementById("countdown");
 
+/* Countdown */
 function tick() {
   const now = Date.now();
   const diff = target - now;
 
   if (diff <= 0) {
-    el.textContent = "00d 00h 00m 00s";
+    countdownEl.textContent = "00d 00h 00m 00s";
     return;
   }
 
@@ -15,11 +17,24 @@ function tick() {
   const m = Math.floor((diff / (1000 * 60)) % 60);
   const s = Math.floor((diff / 1000) % 60);
 
-  el.textContent =
+  countdownEl.textContent =
     `${d}d ${h.toString().padStart(2, "0")}h ` +
     `${m.toString().padStart(2, "0")}m ` +
     `${s.toString().padStart(2, "0")}s`;
 }
 
+/* Global view counter */
+async function updateViews() {
+  try {
+    const res = await fetch("https://view-counter.yourname.workers.dev");
+    const data = await res.json();
+    viewsEl.textContent = `view count: ${data.views}`;
+  } catch {
+    viewsEl.textContent = "view count: —";
+  }
+}
+
+/* Initialize */
 tick();
+updateViews();
 setInterval(tick, 1000);
